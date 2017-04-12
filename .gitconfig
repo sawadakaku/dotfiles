@@ -1,0 +1,10 @@
+[user]
+	name = Sawada Kaku
+	email = kaku.sawada.ak@gmail.com
+[core]
+	precomposeunicode = true
+	excludesfile = /Users/sawada/.gitignore_global
+[color]
+	ui = true
+[alias]
+	graph = log --graph --date-order --all --pretty=format:'%h %Cred%d %Cgreen%ad %Cblue%cn %Creset%s' --date=short
