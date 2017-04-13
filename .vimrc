@@ -47,6 +47,8 @@ set shiftwidth=2
 " use space(2 spaces) instead of tab
 set expandtab
 set tabstop=2
+" enable backspace for tab and eol, and can use it over the point where starting edit
+set backspace=indent,eol,start
 " ----------------------------------------------------------------------
 " ------------------------------
 " keymapping
