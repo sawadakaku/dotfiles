@@ -49,6 +49,8 @@ set expandtab
 set tabstop=2
 " enable backspace for tab and eol, and can use it over the point where starting edit
 set backspace=indent,eol,start
+" complete window size
+"set pumheight=10
 " ----------------------------------------------------------------------
 " ------------------------------
 " keymapping
@@ -85,3 +87,6 @@ onoremap ad  a"
 onoremap id  i"
 " with 'jk' return to Normal-mode
 inoremap jk <Esc>
+" shortcut for replace
+nnoremap gs  :<C-u>%s///g<Left><Left><Left>
+vnoremap gs  :s///g<Left><Left><Left>
