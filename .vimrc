@@ -5,6 +5,7 @@ set nocompatible
 " ----------------------------------------------------------------------
 
 " set color scheme
+set t_Co=256
 colorscheme desert
 
 " ----------------------------------------------------------------------
@@ -49,6 +50,15 @@ set expandtab
 set tabstop=2
 " enable backspace for tab and eol, and can use it over the point where starting edit
 set backspace=indent,eol,start
+" complete by dict
+" The default is ".,w,b,u,t,i", which means to scan:
+" 	   1. the current buffer
+" 	   2. buffers in other windows
+" 	   3. other loaded buffers
+" 	   4. unloaded buffers
+" 	   5. tags
+" 	   6. included files
+set complete+=k
 " complete window size
 "set pumheight=10
 " ----------------------------------------------------------------------
@@ -90,3 +100,12 @@ inoremap jk <Esc>
 " shortcut for replace
 nnoremap gs  :<C-u>%s///g<Left><Left><Left>
 vnoremap gs  :s///g<Left><Left><Left>
+
+" ----------------------------------------------------------------------
+" ------------------------------
+" autocommand
+" ------------------------------
+" for python
+autocmd FileType python :set dictionary+=$HOME/.vim/dict/python.dict
+" for c++
+autocmd FileType cpp :set dictionary+=$HOME/.vim/dict/cpp.dict
