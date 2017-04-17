@@ -37,6 +37,7 @@ typename
 break
 double
 long
+long long
 sizeof
 union
 case
@@ -411,3 +412,4 @@ wostringstream
 wstreambuf
 wstring
 wstringbuf
+#include
