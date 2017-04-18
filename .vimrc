@@ -61,6 +61,11 @@ set backspace=indent,eol,start
 set complete+=k
 " complete window size
 "set pumheight=10
+" enable completion in command mode
+set wildmenu
+" way to split window
+set splitbelow
+set splitright
 " ----------------------------------------------------------------------
 " ------------------------------
 " keymapping
@@ -106,6 +111,103 @@ vnoremap gs  :s///g<Left><Left><Left>
 " autocommand
 " ------------------------------
 " for python
-autocmd FileType python :set dictionary+=$HOME/.vim/dict/python.dict
+autocmd FileType python :setlocal dictionary+=$HOME/.vim/dict/python.dict
 " for c++
-autocmd FileType cpp :set dictionary+=$HOME/.vim/dict/cpp.dict
+autocmd FileType cpp :setlocal dictionary+=$HOME/.vim/dict/cpp.dict
+
+" ----------------------------------------------------------------------
+" ------------------------------
+" plugin
+" ------------------------------
+let s:dein_dir = expand('~/.vim/dein')
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
+if &compatible
+  set nocompatible
+endif
+
+if !isdirectory(s:dein_repo_dir)
+  execute '!git clone git@github.com:Shougo/dein.vim.git' s:dein_repo_dir
+endif
+
+execute 'set runtimepath^=' . s:dein_repo_dir
+
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
+
+  call dein#add('Shougo/dein.vim')
+  call dein#add('Yggdroot/indentLine')
+  call dein#add('Shougo/neocomplete.vim')
+  call dein#add('Shougo/neosnippet.vim')
+  call dein#add('Shougo/neosnippet-snippets')
+  call dein#add('Townk/vim-autoclose')
+  call dein#add('andviro/flake8-vim',{'on_ft' : 'python'})
+  call dein#add('davidhalter/jedi-vim',{'on_ft' : 'python'})
+  call dein#add('Shougo/vimproc.vim', {
+          \ 'build': {
+          \     'mac': 'make -f make_mac.mak',
+          \     'linux': 'make',
+          \     'unix': 'gmake',
+          \    },
+          \ })
+  call dein#add('thinca/vim-quickrun')
+
+
+  call dein#end()
+  call dein#save_state()
+endif
+
+if dein#check_install()
+  call dein#install()
+endif
+
+filetype plugin indent on
+
+" enable auto complete
+let g:neocomplete#enable_at_startup = 1
+" run flake8 when save buffer
+autocmd BufWritePost *.py call Flake8()
+
+" 出力先
+" 成功した場合：quickrun 専用の出力バッファ
+" 失敗した場合：quickfix を :copen で開く
+" バッファの開き方：botright 8sp
+"
+" コマンドの実行は vimproc.vim を使用する
+" runner に vimproc を設定
+" runner/vimproc/updatetime には更新するタイミングを設定
+" この値が大きいとコンパイルが終了していても
+" 結果が出力されるまでに時間がかかる可能性がある。
+"
+" cpp.type にて使用するコンパイラなどを設定する
+" cpp.cmdopt にコマンドラインオプションを設定
+let g:quickrun_config = {
+\   "_" : {
+\       "outputter" : "error",
+\       "outputter/error/success" : "buffer",
+\       "outputter/error/error"   : "quickfix",
+\       "outputter/buffer/split" : ":botright 8sp",
+\       "outputter/quickfix/open_cmd" : "copen",
+\       "runner" : "vimproc",
+\       "runner/vimproc/updatetime" : 500,
+\   },
+\   "cpp" : {
+\       "type" : "cpp/clang++",
+\   },
+\   "python" : {
+\       "type" : "python",
+\   },
+\}
+" :QuickRun 時に quickfix の中身をクリアする
+" こうしておかないと quickfix の中身が残ったままになってしまうため
+let s:hook = {
+\   "name" : "clear_quickfix",
+\   "kind" : "hook",
+\}
+
+function! s:hook.on_normalized(session, context)
+  call setqflist([])
+endfunction
+
+call quickrun#module#register(s:hook, 1)
+unlet s:hook
