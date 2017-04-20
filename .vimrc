@@ -44,10 +44,10 @@ set history=1000
 " same indent as previous row
 set autoindent
 "set smartindent " advanced autoindent when making new line
-set shiftwidth=2
+set shiftwidth=4
 " use space(2 spaces) instead of tab
 set expandtab
-set tabstop=2
+set tabstop=4
 " enable backspace for tab and eol, and can use it over the point where starting edit
 set backspace=indent,eol,start
 " complete by dict
@@ -119,6 +119,9 @@ autocmd FileType cpp :setlocal dictionary+=$HOME/.vim/dict/cpp.dict
 " ------------------------------
 " plugin
 " ------------------------------
+" ------------------------------
+" for dein
+" ------------------------------
 let s:dein_dir = expand('~/.vim/dein')
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
@@ -141,15 +144,16 @@ if dein#load_state(s:dein_dir)
   call dein#add('Shougo/neosnippet.vim')
   call dein#add('Shougo/neosnippet-snippets')
   call dein#add('Townk/vim-autoclose')
-  call dein#add('andviro/flake8-vim',{'on_ft' : 'python'})
+  call dein#add('nvie/vim-flake8',{'on_ft' : 'python'})
   call dein#add('davidhalter/jedi-vim',{'on_ft' : 'python'})
-  call dein#add('Shougo/vimproc.vim', {
-          \ 'build': {
-          \     'mac': 'make -f make_mac.mak',
-          \     'linux': 'make',
-          \     'unix': 'gmake',
-          \    },
-          \ })
+"  call dein#add('Shougo/vimproc.vim', {
+"          \ 'build': {
+"          \     'mac': 'make -f make_mac.mak',
+"          \     'linux': 'make',
+"          \     'unix': 'gmake',
+"          \    },
+"          \ })
+  call dein#add('Shougo/vimproc.vim', {'build': 'make'})
   call dein#add('thinca/vim-quickrun')
 
 
@@ -163,11 +167,21 @@ endif
 
 filetype plugin indent on
 
+" ------------------------------
+" for neocomplete
+" ------------------------------
 " enable auto complete
 let g:neocomplete#enable_at_startup = 1
+
+" ------------------------------
+" for flake8
+" ------------------------------
 " run flake8 when save buffer
 autocmd BufWritePost *.py call Flake8()
 
+" ------------------------------
+" for QuickRun
+" ------------------------------
 " 出力先
 " 成功した場合：quickrun 専用の出力バッファ
 " 失敗した場合：quickfix を :copen で開く
@@ -211,3 +225,29 @@ endfunction
 
 call quickrun#module#register(s:hook, 1)
 unlet s:hook
+
+" ------------------------------
+" for neosnippet
+" ------------------------------
+" Plugin key-mappings.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+imap <expr><TAB>
+ \ pumvisible() ? "\<C-n>" :
+ \ neosnippet#expandable_or_jumpable() ?
+ \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+    set conceallevel=2 concealcursor=niv
+endif
+
+
