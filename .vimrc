@@ -202,16 +202,17 @@ let g:quickrun_config = {
 \       "outputter/error/error"   : "quickfix",
 \       "outputter/buffer/split" : ":botright 8sp",
 \       "outputter/quickfix/open_cmd" : "copen",
-\       "runner" : "vimproc",
-\       "runner/vimproc/updatetime" : 500,
 \   },
 \   "cpp" : {
 \       "type" : "cpp/clang++",
+\       "cmdopt" : "-std=c++14",
 \   },
 \   "python" : {
 \       "type" : "python",
 \   },
 \}
+"\       "runner" : "vimproc",
+"\       "runner/vimproc/updatetime" : 500,
 " :QuickRun 時に quickfix の中身をクリアする
 " こうしておかないと quickfix の中身が残ったままになってしまうため
 let s:hook = {
@@ -225,6 +226,9 @@ endfunction
 
 call quickrun#module#register(s:hook, 1)
 unlet s:hook
+
+" stop quickrun <C-c>
+nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 
 " ------------------------------
 " for neosnippet
@@ -250,4 +254,5 @@ if has('conceal')
     set conceallevel=2 concealcursor=niv
 endif
 
+let g:neosnippet#snippets_directory='~/.vim/dein/repos/github.com/Shougo/neosnippet-snippets/neosnippets/'
 

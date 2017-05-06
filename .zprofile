@@ -8,3 +8,4 @@ fi
 # setting environmental variables
 # path
 export PATH=/usr/local/bin:$PATH
+export PATH=$HOME/.nodebrew/current/bin:$PATH

@@ -18,7 +18,8 @@ compinit
 alias ls='ls -G'
 
 # setting prompt
-PROMPT='%m:%F{green}%c%f %n$ '
+PROMPT='%m:%F{green}%~%f %n$ '
+# PROMPT='%m:%F{green}%c%f %n$ '
 
 # history search
 # for incremental search
