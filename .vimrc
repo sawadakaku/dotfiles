@@ -205,10 +205,11 @@ let g:quickrun_config = {
 \   },
 \   "cpp" : {
 \       "type" : "cpp/clang++",
-\       "cmdopt" : "-std=c++14",
+\       "cmdopt" : "-std=c++14"
 \   },
 \   "python" : {
 \       "type" : "python",
+\       "command" : "python3"
 \   },
 \}
 "\       "runner" : "vimproc",
