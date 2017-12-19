@@ -28,8 +28,8 @@ set hlsearch
 " ignore upper/lowercase when search by lowercase. normal search with uppercase
 set ignorecase
 set smartcase
-" never wrap for long row
-set nowrap
+" wrap for long row
+set wrap
 " show corresponding ( for ) for 0.1seconds
 set showmatch
 set matchtime=1
@@ -130,7 +130,7 @@ if &compatible
 endif
 
 if !isdirectory(s:dein_repo_dir)
-  execute '!git clone git@github.com:Shougo/dein.vim.git' s:dein_repo_dir
+  execute '!git clone git://github.com/Shougo/dein.vim.git' s:dein_repo_dir
 endif
 
 execute 'set runtimepath^=' . s:dein_repo_dir

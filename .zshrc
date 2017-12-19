@@ -25,3 +25,9 @@ PROMPT='%m:%F{green}%~%f %n$ '
 # for incremental search
 setopt inc_append_history
 bindkey "^R" history-incremental-search-backward
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/sawada/Work/anisom/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/sawada/Work/anisom/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/sawada/Work/anisom/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/sawada/Work/anisom/google-cloud-sdk/completion.zsh.inc'; fi
