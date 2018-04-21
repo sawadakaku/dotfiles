@@ -6,6 +6,10 @@ full: \
 	.zshrc_\
 	.gitconfig_\
 	.gitignore_global_
+	unlink ~/.vimrc
+	unlink ~/.zprofile
+	unlink ~/.zshrc
+	unlink ~/.gitconfig
 	ln -sf ~/dotfiles/.vimrc_ ~/.vimrc
 	ln -sf ~/dotfiles/.zprofile_ ~/.zprofile
 	ln -sf ~/dotfiles/.zshrc_  ~/.zshrc
@@ -31,6 +35,10 @@ minimal: \
 	.zshrc_\
 	.gitconfig_\
 	.gitignore_global_
+	unlink ~/.vimrc
+	unlink ~/.zprofile
+	unlink ~/.zshrc
+	unlink ~/.gitconfig
 	ln -sf ~/dotfiles/.vimrc_minimal_ ~/.vimrc
 	ln -sf ~/dotfiles/.zprofile_ ~/.zprofile
 	ln -sf ~/dotfiles/.zshrc_  ~/.zshrc
