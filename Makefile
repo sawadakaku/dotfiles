@@ -16,10 +16,10 @@ full: \
 	if [ ! -d ~/.config/git ]; then\
 		mkdir ~/.config/git;\
 	fi
-	if [ ! -d ~/.config/git ]; then\
+	if [ ! -d ~/.vim ]; then\
 		mkdir ~/.vim;\
 	fi
-	if [ ! -d ~/.config/git ]; then\
+	if [ ! -d ~/.vim/dict ]; then\
 		mkdir ~/.vim/dict;\
 	fi
 	ln -sf ~/dotfiles/.gitignore_global_ ~/.config/git/ignore
@@ -41,10 +41,10 @@ minimal: \
 	if [ ! -d ~/.config/git ]; then
 		mkdir ~/.config/git;
 	fi
-	if [ ! -d ~/.config/git ]; then\
+	if [ ! -d ~/.vim ]; then\
 		mkdir ~/.vim;\
 	fi
-	if [ ! -d ~/.config/git ]; then\
+	if [ ! -d ~/.vim/dict ]; then\
 		mkdir ~/.vim/dict;\
 	fi
 	ln -sf ~/dotfiles/.gitignore_global_ ~/.config/git/ignore
