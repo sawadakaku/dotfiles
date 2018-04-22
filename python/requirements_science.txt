@@ -19,6 +19,7 @@ jupyter
 jupyterthemes
 matplotlib
 seaborn
+pydot_ng
 eli5
 google-cloud-bigquery
 boto3
