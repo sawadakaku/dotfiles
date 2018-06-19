@@ -5,6 +5,7 @@ pandas
 hyperopt
 tqdm
 h5py
+tifffile
 joblib
 scikit-learn
 lightgbm
