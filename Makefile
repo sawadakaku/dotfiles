@@ -7,16 +7,16 @@ full: \
 	.gitconfig_\
 	.gitignore_global_
 	if [ -L ~/.vimrc ]; then\
-		unlink ~/.vimrc
+		unlink ~/.vimrc;\
 	fi
 	if [ -L ~/.zprofile ]; then\
-		unlink ~/.zprofile
+		unlink ~/.zprofile;\
 	fi
 	if [ -L ~/.zshrc ]; then\
-		unlink ~/.zshrc
+		unlink ~/.zshrc;\
 	fi
 	if [ -L ~/.gitconfig ]; then\
-		unlink ~/.gitconfig
+		unlink ~/.gitconfig;\
 	fi
 	ln -sf ~/dotfiles/.vimrc_ ~/.vimrc
 	ln -sf ~/dotfiles/.zprofile_ ~/.zprofile
@@ -44,26 +44,26 @@ minimal: \
 	.gitconfig_\
 	.gitignore_global_
 	if [ -L ~/.vimrc ]; then\
-		unlink ~/.vimrc
+		unlink ~/.vimrc;\
 	fi
 	if [ -L ~/.zprofile ]; then\
-		unlink ~/.zprofile
+		unlink ~/.zprofile;\
 	fi
 	if [ -L ~/.zshrc ]; then\
-		unlink ~/.zshrc
+		unlink ~/.zshrc;\
 	fi
 	if [ -L ~/.gitconfig ]; then\
-		unlink ~/.gitconfig
+		unlink ~/.gitconfig;\
 	fi
 	ln -sf ~/dotfiles/.vimrc_minimal_ ~/.vimrc
 	ln -sf ~/dotfiles/.zprofile_ ~/.zprofile
 	ln -sf ~/dotfiles/.zshrc_  ~/.zshrc
 	ln -sf ~/dotfiles/.gitconfig_ ~/.gitconfig
-	if [ ! -d ~/.config ]; then
-		mkdir ~/.config/;
+	if [ ! -d ~/.config ]; then\
+		mkdir ~/.config/;\
 	fi
-	if [ ! -d ~/.config/git ]; then
-		mkdir ~/.config/git;
+	if [ ! -d ~/.config/git ]; then\
+		mkdir ~/.config/git;\
 	fi
 	if [ ! -d ~/.vim ]; then\
 		mkdir ~/.vim;\
@@ -79,10 +79,10 @@ bash: \
 	.gitconfig_\
 	.gitignore_global_
 	if [ -L ~/.vimrc ]; then\
-		unlink ~/.vimrc
+		unlink ~/.vimrc;\
 	fi
 	if [ -L ~/.gitconfig ]; then\
-		unlink ~/.gitconfig
+		unlink ~/.gitconfig;\
 	fi
 	ln -sf ~/dotfiles/.vimrc_ ~/.vimrc
 	ln -sf ~/dotfiles/.zprofile_ ~/.zprofile
@@ -108,20 +108,20 @@ bash_minimal: \
 	.gitconfig_\
 	.gitignore_global_
 	if [ -L ~/.vimrc ]; then\
-		unlink ~/.vimrc
+		unlink ~/.vimrc;\
 	fi
 	if [ -L ~/.gitconfig ]; then\
-		unlink ~/.gitconfig
+		unlink ~/.gitconfig;\
 	fi
 	ln -sf ~/dotfiles/.vimrc_minimal_ ~/.vimrc
 	ln -sf ~/dotfiles/.zprofile_ ~/.zprofile
 	ln -sf ~/dotfiles/.zshrc_  ~/.zshrc
 	ln -sf ~/dotfiles/.gitconfig_ ~/.gitconfig
-	if [ ! -d ~/.config ]; then
-		mkdir ~/.config/;
+	if [ ! -d ~/.config ]; then\
+		mkdir ~/.config/;\
 	fi
-	if [ ! -d ~/.config/git ]; then
-		mkdir ~/.config/git;
+	if [ ! -d ~/.config/git ]; then\
+		mkdir ~/.config/git;\
 	fi
 	if [ ! -d ~/.vim ]; then\
 		mkdir ~/.vim;\
