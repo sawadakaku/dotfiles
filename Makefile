@@ -6,10 +6,18 @@ full: \
 	.zshrc_\
 	.gitconfig_\
 	.gitignore_global_
-	unlink ~/.vimrc
-	unlink ~/.zprofile
-	unlink ~/.zshrc
-	unlink ~/.gitconfig
+	if [ -L ~/.vimrc ]; then\
+		unlink ~/.vimrc
+	fi
+	if [ -L ~/.zprofile ]; then\
+		unlink ~/.zprofile
+	fi
+	if [ -L ~/.zshrc ]; then\
+		unlink ~/.zshrc
+	fi
+	if [ -L ~/.gitconfig ]; then\
+		unlink ~/.gitconfig
+	fi
 	ln -sf ~/dotfiles/.vimrc_ ~/.vimrc
 	ln -sf ~/dotfiles/.zprofile_ ~/.zprofile
 	ln -sf ~/dotfiles/.zshrc_  ~/.zshrc
