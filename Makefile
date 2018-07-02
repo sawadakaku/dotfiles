@@ -1,154 +1,111 @@
-.PHONY: full minimal bash bash_minimal clean
+.PHONY: full minimal bash bash_minimal clean\
+		vimrc zprofile zshrc gitconfig gitignore_global\
+		vimdict neosnipet
 
 full: \
-	.vimrc_\
-	.zprofile_\
-	.zshrc_\
-	.gitconfig_\
-	.gitignore_global_
-	if [ -L ~/.vimrc ]; then\
-		unlink ~/.vimrc;\
-	fi
-	if [ -L ~/.zprofile ]; then\
-		unlink ~/.zprofile;\
-	fi
-	if [ -L ~/.zshrc ]; then\
-		unlink ~/.zshrc;\
-	fi
-	if [ -L ~/.gitconfig ]; then\
-		unlink ~/.gitconfig;\
-	fi
-	ln -sf ~/dotfiles/.vimrc_ ~/.vimrc
-	ln -sf ~/dotfiles/.zprofile_ ~/.zprofile
-	ln -sf ~/dotfiles/.zshrc_  ~/.zshrc
-	ln -sf ~/dotfiles/.gitconfig_ ~/.gitconfig
-	if [ ! -d ~/.config ]; then\
-		mkdir ~/.config/;\
-	fi
-	if [ ! -d ~/.config/git ]; then\
-		mkdir ~/.config/git;\
-	fi
-	if [ ! -d ~/.vim ]; then\
-		mkdir ~/.vim;\
-	fi
-	if [ ! -d ~/.vim/dict ]; then\
-		mkdir ~/.vim/dict;\
-	fi
-	ln -sf ~/dotfiles/.gitignore_global_ ~/.config/git/ignore
-	ln -sf ~/dotfiles/dict/*  ~/.vim/dict/
+	vimrc\
+	zprofile\
+	zshrc\
+	gitconfig\
+	gitignore_global\
+	neosnipet
 
 minimal: \
-	.vimrc_minimal_\
-	.zprofile_\
-	.zshrc_\
-	.gitconfig_\
-	.gitignore_global_
-	if [ -L ~/.vimrc ]; then\
-		unlink ~/.vimrc;\
-	fi
-	if [ -L ~/.zprofile ]; then\
-		unlink ~/.zprofile;\
-	fi
-	if [ -L ~/.zshrc ]; then\
-		unlink ~/.zshrc;\
-	fi
-	if [ -L ~/.gitconfig ]; then\
-		unlink ~/.gitconfig;\
-	fi
-	ln -sf ~/dotfiles/.vimrc_minimal_ ~/.vimrc
-	ln -sf ~/dotfiles/.zprofile_ ~/.zprofile
-	ln -sf ~/dotfiles/.zshrc_  ~/.zshrc
-	ln -sf ~/dotfiles/.gitconfig_ ~/.gitconfig
-	if [ ! -d ~/.config ]; then\
-		mkdir ~/.config/;\
-	fi
-	if [ ! -d ~/.config/git ]; then\
-		mkdir ~/.config/git;\
-	fi
-	if [ ! -d ~/.vim ]; then\
-		mkdir ~/.vim;\
-	fi
-	if [ ! -d ~/.vim/dict ]; then\
-		mkdir ~/.vim/dict;\
-	fi
-	ln -sf ~/dotfiles/.gitignore_global_ ~/.config/git/ignore
-	ln -sf ~/dotfiles/dict/*  ~/.vim/dict/
+	vimrc_minimal\
+	zprofile\
+	zshrc\
+	gitconfig\
+	gitignore_global\
+	neosnipet
 
 bash: \
-	.vimrc_\
-	.gitconfig_\
-	.gitignore_global_
-	if [ -L ~/.vimrc ]; then\
-		unlink ~/.vimrc;\
-	fi
-	if [ -L ~/.gitconfig ]; then\
-		unlink ~/.gitconfig;\
-	fi
-	ln -sf ~/dotfiles/.vimrc_ ~/.vimrc
-	ln -sf ~/dotfiles/.zprofile_ ~/.zprofile
-	ln -sf ~/dotfiles/.zshrc_  ~/.zshrc
-	ln -sf ~/dotfiles/.gitconfig_ ~/.gitconfig
-	if [ ! -d ~/.config ]; then\
-		mkdir ~/.config/;\
-	fi
-	if [ ! -d ~/.config/git ]; then\
-		mkdir ~/.config/git;\
-	fi
-	if [ ! -d ~/.vim ]; then\
-		mkdir ~/.vim;\
-	fi
-	if [ ! -d ~/.vim/dict ]; then\
-		mkdir ~/.vim/dict;\
-	fi
-	ln -sf ~/dotfiles/.gitignore_global_ ~/.config/git/ignore
-	ln -sf ~/dotfiles/dict/*  ~/.vim/dict/
+	vimrc\
+	gitconfig\
+	gitignore_global\
+	neosnipet
 
 bash_minimal: \
-	.vimrc_minimal_\
-	.gitconfig_\
-	.gitignore_global_
+	vimrc_minimal\
+	gitconfig\
+	gitignore_global\
+	neosnipet
+
+vimrc: .vimrc_
 	if [ -L ~/.vimrc ]; then\
 		unlink ~/.vimrc;\
 	fi
-	if [ -L ~/.gitconfig ]; then\
-		unlink ~/.gitconfig;\
-	fi
-	ln -sf ~/dotfiles/.vimrc_minimal_ ~/.vimrc
-	ln -sf ~/dotfiles/.zprofile_ ~/.zprofile
-	ln -sf ~/dotfiles/.zshrc_  ~/.zshrc
-	ln -sf ~/dotfiles/.gitconfig_ ~/.gitconfig
-	if [ ! -d ~/.config ]; then\
-		mkdir ~/.config/;\
-	fi
-	if [ ! -d ~/.config/git ]; then\
-		mkdir ~/.config/git;\
-	fi
-	if [ ! -d ~/.vim ]; then\
-		mkdir ~/.vim;\
-	fi
-	if [ ! -d ~/.vim/dict ]; then\
-		mkdir ~/.vim/dict;\
-	fi
-	ln -sf ~/dotfiles/.gitignore_global_ ~/.config/git/ignore
-	ln -sf ~/dotfiles/dict/*  ~/.vim/dict/
+	ln -sf ~/dotfiles/.vimrc_ ~/.vimrc
 
 .vimrc_:
 	cp .vimrc .vimrc_
 
+vimrc_minimal: .vimrc_minimal_
+	if [ -L ~/.vimrc ]; then\
+		unlink ~/.vimrc;\
+	fi
+	ln -sf ~/dotfiles/.vimrc_minimal_ ~/.vimrc
+
 .vimrc_minimal_:
 	cp .vimrc_minimal .vimrc_minimal_
+
+zprofile: .zprofile_
+	if [ -L ~/.zprofile ]; then\
+		unlink ~/.zprofile;\
+	fi
+	ln -sf ~/dotfiles/.zprofile_ ~/.zprofile
 
 .zprofile_:
 	cp .zprofile .zprofile_
 
+zshrc: .zshrc_
+	if [ -L ~/.zshrc ]; then\
+		unlink ~/.zshrc;\
+	fi
+	ln -sf ~/dotfiles/.zshrc_  ~/.zshrc
+
 .zshrc_:
 	cp .zshrc .zshrc_
+
+gitconfig: .gitconfig_
+	if [ -L ~/.gitconfig ]; then\
+		unlink ~/.gitconfig;\
+	fi
+	ln -sf ~/dotfiles/.gitconfig_ ~/.gitconfig
+
+gitconfig: .gitconfig_
+	if [ -L ~/.gitconfig ]; then\
+		unlink ~/.gitconfig;\
+	fi
+	ln -sf ~/dotfiles/.gitconfig_ ~/.gitconfig
 
 .gitconfig_:
 	cp .gitconfig .gitconfig_
 
+gitignore_global: .gitignore_global_
+	if [ ! -d ~/.config ]; then\
+		mkdir ~/.config/;\
+	fi
+	if [ ! -d ~/.config/git ]; then\
+		mkdir ~/.config/git;\
+	fi
+	ln -sf ~/dotfiles/.gitignore_global_ ~/.config/git/ignore
+
 .gitignore_global_:
 	cp .gitignore_global .gitignore_global_
 
+vimdict:
+	if [ ! -d ~/.vim ]; then\
+		mkdir ~/.vim;\
+	fi
+	if [ ! -d ~/.vim/dict ]; then\
+		mkdir ~/.vim/dict;\
+	fi
+	ln -sf ~/dotfiles/dict/*  ~/.vim/dict/
+
+neosnipet:
+	mkdir -p ~/.vim/dein/repos/github.com/Shougo/neosnippet-snippets/neosnippets\
+	ln -sf ~/dotfiles/cpp/cpp.snip ~/.vim/dein/repos/github.com/Shougo/neosnippet-snippets/neosnippets/cpp.snip
+
 clean:
 	rm -f ./*_
+
