@@ -4,6 +4,7 @@
 
 full: \
 	vimrc\
+	vimdict\
 	zprofile\
 	zshrc\
 	gitconfig\
@@ -12,23 +13,24 @@ full: \
 
 minimal: \
 	vimrc_minimal\
+	vimdict\
 	zprofile\
 	zshrc\
 	gitconfig\
 	gitignore_global\
-	neosnipet
 
 bash: \
 	vimrc\
+	vimdict\
 	gitconfig\
 	gitignore_global\
 	neosnipet
 
 bash_minimal: \
 	vimrc_minimal\
+	vimdict\
 	gitconfig\
 	gitignore_global\
-	neosnipet
 
 vimrc: .vimrc_
 	if [ -L ~/.vimrc ]; then\
