@@ -110,10 +110,16 @@ vnoremap gs  :s///g<Left><Left><Left>
 " ------------------------------
 " autocommand
 " ------------------------------
+" avoid to exec autocmd multiple times
+augroup vimrc
+  autocmd!
+augroup END
 " for python
-autocmd FileType python :setlocal dictionary+=$HOME/.vim/dict/python.dict
+autocmd vimrc FileType python :setlocal dictionary+=$HOME/.vim/dict/python.dict
 " for c++
-autocmd FileType cpp :setlocal dictionary+=$HOME/.vim/dict/cpp.dict
+autocmd vimrc FileType cpp :setlocal dictionary+=$HOME/.vim/dict/cpp.dict
+autocmd vimrc FileType cpp setlocal shiftwidth=2
+autocmd vimrc FileType cpp setlocal tabstop=2
 
 " ----------------------------------------------------------------------
 " ------------------------------
