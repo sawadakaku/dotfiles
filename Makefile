@@ -72,12 +72,6 @@ gitconfig: .gitconfig_
 	fi
 	ln -sf ~/dotfiles/.gitconfig_ ~/.gitconfig
 
-gitconfig: .gitconfig_
-	if [ -L ~/.gitconfig ]; then\
-		unlink ~/.gitconfig;\
-	fi
-	ln -sf ~/dotfiles/.gitconfig_ ~/.gitconfig
-
 .gitconfig_:
 	cp .gitconfig .gitconfig_
 
@@ -103,7 +97,7 @@ vimdict:
 	ln -sf ~/dotfiles/dict/*  ~/.vim/dict/
 
 neosnipet:
-	mkdir -p ~/.vim/dein/repos/github.com/Shougo/neosnippet-snippets/neosnippets\
+	mkdir -p ~/.vim/dein/repos/github.com/Shougo/neosnippet-snippets/neosnippets
 	ln -sf ~/dotfiles/cpp/cpp.snip ~/.vim/dein/repos/github.com/Shougo/neosnippet-snippets/neosnippets/cpp.snip
 
 clean:
