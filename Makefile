@@ -1,6 +1,6 @@
 .PHONY: full minimal bash bash_minimal clean\
 		vimrc zprofile zshrc gitconfig gitignore_global\
-		vimdict neosnipet
+		vimdict neosnipet tmux.conf
 
 full: \
 	vimrc\
@@ -101,6 +101,15 @@ vimdict:
 neosnipet:
 	mkdir -p ~/.vim/dein/repos/github.com/Shougo/neosnippet-snippets/neosnippets
 	ln -sf ~/dotfiles/cpp/cpp.snip ~/.vim/dein/repos/github.com/Shougo/neosnippet-snippets/neosnippets/cpp.snip
+
+tmux.conf: .tmux.conf_
+	if [ -L ~/.tmux.conf ]; then\
+		unlink ~/.tmux.conf;\
+	fi
+	ln -sf ~/dotfiles/.tmux.conf_ ~/.tmux.conf
+
+.tmux.conf_:
+	cp .tmux.conf .tmux.conf_
 
 clean:
 	rm -f ./*_
