@@ -1,6 +1,6 @@
 [user]
-	name = Sawada Kaku
-	email = kaku.sawada.ak@gmail.com
+	name = {{ your name }}
+	email = {{ your email }}
 [core]
 	precomposeunicode = true
 [color]
