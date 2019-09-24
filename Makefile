@@ -3,13 +3,11 @@
 		vimdict neosnipet tmux.conf
 
 full: \
-	vimrc\
-	vimdict\
+	init.vim\
 	zprofile\
 	zshrc\
 	gitconfig\
 	gitignore_global\
-	neosnipet
 
 minimal: \
 	vimrc_minimal\
@@ -20,11 +18,9 @@ minimal: \
 	gitignore_global\
 
 bash: \
-	vimrc\
-	vimdict\
+	init.vim\
 	gitconfig\
 	gitignore_global\
-	neosnipet
 
 bash_minimal: \
 	vimrc_minimal\
@@ -110,6 +106,18 @@ tmux.conf: .tmux.conf_
 
 .tmux.conf_:
 	cp .tmux.conf .tmux.conf_
+
+init.vim: init.vim_
+	if [ ! -d ~/.config/nvim ]; then\
+		mkdir -p ~/.config/nvim;\
+	fi
+	if [ -L ~/.config/nvim/init.vim ]; then\
+		unlink ~/.config/nvim/init.vim;\
+	fi
+	ln -sf ~/dotfiles/init.vim_ ~/.config/nvim/init.vim
+
+init.vim_:
+	cp init.vim init.vim_
 
 clean:
 	rm -f ./*_

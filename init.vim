@@ -140,6 +140,8 @@ set tags=tags;/
 " plugins
 " ------------------------------
 " using vim-plug (https://github.com/junegunn/vim-plug)
+" curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
+"    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 call plug#begin('~/.config/nvim/pluged')
 
 Plug 'junegunn/fzf.vim'
