@@ -82,6 +82,11 @@ nnoremap gk  k
 nnoremap gj  j
 vnoremap gk  k
 vnoremap gj  j
+" cursor move in 5 rows
+nnoremap <C-n>  5gj
+nnoremap <C-p>  5gk
+vnoremap <C-n>  5gj
+vnoremap <C-p>  5gk
 " erase highlight by escX2
 nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
 " disable 'save and quit', 'quit without save'
@@ -149,12 +154,13 @@ Plug 'kassio/neoterm'
 Plug 'justinmk/vim-dirvish'
 Plug 'tpope/vim-fugitive'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'neoclide/coc-snippets'
+Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
 Plug 'honza/vim-snippets'
 Plug 'itchyny/lightline.vim'
 Plug 'luochen1990/rainbow'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'w0ng/vim-hybrid'
+Plug 'janko/vim-test'
 
 call plug#end()
 
@@ -179,6 +185,25 @@ imap <c-x><c-f> <plug>(fzf-complete-path)
 
 " for neoterm
 let g:neoterm_default_mod = 'botright'
+nnoremap <c-t><c-t> :Ttoggle<CR>
+tnoremap <c-t><c-t> <C-\><C-n>:Ttoggle<CR>
+tnoremap <c-w> <C-\><C-n><C-w>
+tnoremap <ESC> <C-\><C-n>
+nnoremap <silent> <C-e> V:TREPLSendLine<cr>
+vnoremap <silent> <C-e> V:TREPLSendSelection<cr>'>j$<
+
+" for coc snippets
+" use <tab> for trigger completion, completion confirm, snippet expand and jump like VSCode
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+let g:coc_snippet_next = '<tab>'
 
 " for rainvow bracket
 let g:rainbow_active = 1
@@ -189,3 +214,11 @@ highlight IndentGuidesOdd ctermbg=236
 " let g:indent_guides_start_level = 2
 " let g:indent_guides_guide_size = 1
 
+" for lightline
+let g:lightline = {
+    \ 'colorscheme': 'jellybeans',
+    \}
+
+" for vim-test
+let test#strategy = "neoterm"
+let test#python#runner = 'pytest'
