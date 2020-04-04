@@ -69,6 +69,7 @@ set splitright
 set colorcolumn=80
 highlight ColorColumn ctermbg=55
 
+set guicursor=i-n-v-c:block-Cursor
 " ----------------------------------------------------------------------
 " ------------------------------
 " keymapping
