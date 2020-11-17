@@ -69,7 +69,6 @@ set splitright
 set colorcolumn=80
 highlight ColorColumn ctermbg=55
 
-set guicursor=i-n-v-c:block-Cursor
 " ----------------------------------------------------------------------
 " ------------------------------
 " keymapping
@@ -107,6 +106,8 @@ inoremap jk <Esc>
 " shortcut for replace
 nnoremap gs  :<C-u>%s///g<Left><Left><Left>
 vnoremap gs  :s///g<Left><Left><Left>
+" full screen
+nnoremap <C-w>z <C-w>\|<C-w><C-_>
 
 " ----------------------------------------------------------------------
 " ------------------------------
@@ -130,6 +131,9 @@ autocmd vimrc FileType cpp setlocal isk-=.
 
 " Make unfortunately needs tabs
 autocmd vimrc FileType make setlocal noexpandtab
+
+" tsv
+autocmd vimrc FileType tsv setlocal noexpandtab
 
 " ----------------------------------------------------------------------
 " ------------------------------
@@ -162,6 +166,7 @@ Plug 'luochen1990/rainbow'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'w0ng/vim-hybrid'
 Plug 'janko/vim-test'
+Plug 'google/vim-jsonnet'
 
 call plug#end()
 
