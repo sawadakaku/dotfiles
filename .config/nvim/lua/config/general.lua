@@ -13,7 +13,7 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.hidden = true
 -- use clipboard instead of unnamed
-vim.opt.clipboard:append({unnamedplus = true})
+vim.opt.clipboard:append({"unnamedplus"})
 
 -- appearance
 vim.opt.updatetime = 250
@@ -47,7 +47,6 @@ vim.opt.wrapscan = false
 -- move
 vim.opt.whichwrap = 'b,s,h,l,<,>,[,]'
 vim.opt.backspace = 'start,eol,indent'
-
 
 -----------------
 -- Key Mapping --
