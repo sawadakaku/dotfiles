@@ -200,7 +200,7 @@ idea() {
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!**/.git/*"'
 export FZF_DEFAULT_OPTS="
     --height 40% --reverse --border=sharp --margin=0,1
-    --prompt=' ' --color=light
+    --prompt='"$''" ' --color=light
 "
 
 # for finding files in current directories
