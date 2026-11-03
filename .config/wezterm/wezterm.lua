@@ -2,7 +2,7 @@ local wezterm = require 'wezterm'
 local act = wezterm.action
 local config = {}
 
-config.font = wezterm.font 'Moralerspace Argon HWNF'
+config.font = wezterm.font 'Moralerspace Argon HW'
 config.color_scheme = 'Tokyo Night'
 config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = true

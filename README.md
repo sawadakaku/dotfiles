@@ -2,11 +2,26 @@
 
 ## Setup
 
+On a new Mac:
+
 ```sh
+xcode-select --install
+git clone https://github.com/sawadakaku/dotfiles.git ~/dotfiles   # keep it at ~/dotfiles
+cd ~/dotfiles
 ./install.sh
+./macos.sh
 ```
 
-Creates `~/.zshrc` and `~/.zprofile` that source the files in this repository, links the mise config, installs Homebrew packages (`Brewfile`), rustup, uv, the mise tools and Claude Code. It is safe to re-run.
+`install.sh` creates `~/.zshrc` and `~/.zprofile` that source the files in this repository, links the mise and WezTerm configs, installs Homebrew packages (`Brewfile`), rustup, uv, the mise tools, fonts (Moralerspace, Explex) and Claude Code, and writes the Karabiner rules. It is safe to re-run.
+
+`macos.sh` sets system preferences: key repeat, screenshot location (`~/Pictures/SS`) and Finder (show extensions and hidden files).
+
+Manual steps:
+
+- Grant permissions to Karabiner-Elements and Google Japanese Input (Input Monitoring, etc.) and add Google Japanese Input to the input sources
+- Import the Google Japanese Input roman table
+- Log in: `gh auth login`, `claude`, `gcloud auth login`
+- Restore local settings (see below)
 
 ## Layout
 
@@ -19,6 +34,8 @@ Creates `~/.zshrc` and `~/.zprofile` that source the files in this repository, l
 | Go | Homebrew (`GOTOOLCHAIN=auto` fetches newer toolchains as needed) |
 | Node.js / Java / Ruby / Scala / sbt / Bazelisk | mise (`.config/mise/conf.d/dotfiles.toml`) |
 | Claude Code | `claude/CLAUDE.md` (linked), `claude/settings.json` (shared defaults merged into `~/.claude/settings.json`) |
+| Karabiner-Elements | `karabiner/karabiner.jsonnet` (rendered into the selected profile of `~/.config/karabiner/karabiner.json` by `install.sh`) |
+| Terminal | WezTerm (`.config/wezterm`, linked) |
 
 ## Local settings
 

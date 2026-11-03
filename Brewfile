@@ -19,6 +19,7 @@ brew "bat"
 brew "eza"
 brew "fzf"
 brew "gh"
+brew "go-jsonnet"               # renders karabiner/karabiner.jsonnet
 brew "jq"
 brew "lazygit"
 brew "neovim"
@@ -30,4 +31,6 @@ brew "colima"
 brew "docker"                   # docker CLI (colima provides the runtime)
 
 # Apps
+cask "google-japanese-ime"
+cask "karabiner-elements"
 cask "wezterm"

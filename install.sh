@@ -36,11 +36,34 @@ source_from() {
   echo "create: $dst (sources $src)"
 }
 
+# Install fonts from the latest GitHub release of $1 (asset name regex $2),
+# unless a font file matching the glob $3 is already in ~/Library/Fonts.
+install_font() {
+  local repo="$1" pattern="$2" marker="$3" fonts="$HOME/Library/Fonts" url tmp
+  if compgen -G "$fonts/$marker" >/dev/null; then
+    return
+  fi
+  url="$(curl -fsSL "https://api.github.com/repos/$repo/releases/latest" |
+    jq -r --arg p "$pattern" '[.assets[] | select(.name | test($p)) | .browser_download_url][0] // empty')"
+  if [[ -z "$url" ]]; then
+    echo "font:   no release asset matching $pattern in $repo" >&2
+    return 1
+  fi
+  tmp="$(mktemp -d "${TMPDIR:-/tmp}/font.XXXXXX")"
+  curl -fsSL -o "$tmp/font.zip" "$url"
+  unzip -q "$tmp/font.zip" -d "$tmp"
+  mkdir -p "$fonts"
+  find "$tmp" -name '*.ttf' -exec cp {} "$fonts/" \;
+  rm -rf "$tmp"
+  echo "font:   installed $(basename "$url")"
+}
+
 echo "==> Linking dotfiles"
 source_from zsh/.zshrc   "$HOME/.zshrc"
 source_from zsh/.zprofile "$HOME/.zprofile"
 link .config/mise/conf.d/dotfiles.toml "$HOME/.config/mise/conf.d/dotfiles.toml"
 link bin/bazel                         "$HOME/.local/bin/bazel"
+link .config/wezterm                   "$HOME/.config/wezterm"
 
 echo "==> Homebrew packages"
 if ! command -v brew >/dev/null; then
@@ -64,6 +87,30 @@ fi
 
 echo "==> mise tools"
 mise install
+
+echo "==> Fonts"
+install_font yuru7/moralerspace '^MoralerspaceHW_v.*\.zip$' 'MoralerspaceArgonHW-Regular.ttf'
+install_font yuru7/Explex       '^Explex_NF_v.*\.zip$'      'Explex*'
+
+echo "==> Karabiner-Elements"
+# Rules are generated from karabiner/karabiner.jsonnet and written into the selected
+# profile; other settings in karabiner.json are left as they are.
+karabiner="$HOME/.config/karabiner/karabiner.json"
+rules="$(jsonnet "$DOTFILES/karabiner/karabiner.jsonnet" | jq '.rules')"
+if [[ ! -f "$karabiner" ]]; then
+  mkdir -p "$(dirname "$karabiner")"
+  jq -n --argjson rules "$rules" \
+    '{profiles: [{name: "Default profile", selected: true, complex_modifications: {rules: $rules}}]}' > "$karabiner"
+  echo "create: $karabiner"
+else
+  updated="$(jq --argjson rules "$rules" \
+    '(.profiles[] | select(.selected) | .complex_modifications.rules) = $rules' "$karabiner")"
+  if [[ "$(jq -S . <<< "$updated")" != "$(jq -S . "$karabiner")" ]]; then
+    cp "$karabiner" "$karabiner.bak.$TIMESTAMP"
+    printf '%s\n' "$updated" > "$karabiner"
+    echo "update: $karabiner (backup: $karabiner.bak.$TIMESTAMP)"
+  fi
+fi
 
 echo "==> Claude Code"
 if [[ ! -x "$HOME/.local/bin/claude" ]]; then
@@ -99,6 +146,7 @@ Optional cleanup:
   sudo rm -rf /usr/local/go /etc/paths.d/go
   rm -rf ~/.nodenv ~/.rbenv ~/.sdkman ~/.nodenv-rc.sh ~/.pyenv-rc.sh
   rm -rf ~/.local/share/zinit ~/.local/share/z ~/.fzf.zsh ~/.z
+  rm ~/Library/Fonts/Moralerspace*NF-*.ttf   # Moralerspace v1 Nerd Fonts builds (v2 includes them)
   Remove the cargo/flutter lines from ~/.zshenv and the SDKMAN lines from ~/.bash_profile
   (they are now handled by ~/.zprofile).
 MSG
