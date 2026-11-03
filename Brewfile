@@ -33,6 +33,7 @@ brew "colima"
 brew "docker"                   # docker CLI (colima provides the runtime)
 
 # Apps
+cask "claude"                   # Claude Desktop (settings are kept in the app / account)
 cask "gcloud-cli"
 cask "google-japanese-ime"
 cask "karabiner-elements"
