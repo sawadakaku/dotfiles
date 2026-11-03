@@ -39,9 +39,19 @@ export FZF_CTRL_R_OPTS="
 #  │ Functions │
 #  ┕━━━━━━━━━━━┙
 
+# Path to the History database of the last used Chrome profile
+# ("Default", "Profile 1", ... differs per machine). Override with $CHROME_PROFILE.
+chrome-history-db() {
+  local chrome="$HOME/Library/Application Support/Google/Chrome" profile=$CHROME_PROFILE
+  if [[ -z $profile ]]; then
+    profile=$(jq -r '.profile.last_used // "Default"' "$chrome/Local State" 2>/dev/null)
+  fi
+  print -r -- "$chrome/${profile:-Default}/History"
+}
+
 # c: open pages from Chrome history (tab: select multiple)
 c() {
-  local history_db="$HOME/Library/Application Support/Google/Chrome/Profile 1/History"
+  local history_db=$(chrome-history-db)
   local tmp cols=$(( COLUMNS / 3 ))
   tmp=$(mktemp) && cp -f "$history_db" "$tmp" || return
   sqlite3 -separator $'\t' "$tmp" \
