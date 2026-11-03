@@ -12,7 +12,7 @@ cd ~/dotfiles
 ./macos.sh
 ```
 
-`install.sh` creates `~/.zshrc` and `~/.zprofile` that source the files in this repository, links the mise and WezTerm configs, installs Homebrew packages (`Brewfile`), rustup, uv, the mise tools, fonts (Moralerspace, Explex) and Claude Code, and writes the Karabiner rules. It is safe to re-run.
+`install.sh` creates `~/.zshrc` and `~/.zprofile` that source the files in this repository, links the mise and WezTerm configs, installs Homebrew packages (`Brewfile`), rustup, uv, the mise tools, fonts (Explex) and Claude Code, and writes the Karabiner rules. It is safe to re-run.
 
 `macos.sh` sets system preferences: key repeat, screenshot location (`~/Pictures/SS`) and Finder (show extensions and hidden files).
 

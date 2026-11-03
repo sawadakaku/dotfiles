@@ -88,8 +88,7 @@ echo "==> mise tools"
 mise install
 
 echo "==> Fonts"
-install_font yuru7/moralerspace '^MoralerspaceHW_v.*\.zip$' 'MoralerspaceArgonHW-Regular.ttf'
-install_font yuru7/Explex       '^Explex_NF_v.*\.zip$'      'Explex*'
+install_font yuru7/Explex '^Explex_NF_v.*\.zip$' 'Explex*'
 
 echo "==> WezTerm"
 # Linked after the fonts so that a running WezTerm reloads the config with the fonts available
@@ -149,7 +148,7 @@ Optional cleanup:
   sudo rm -rf /usr/local/go /etc/paths.d/go
   rm -rf ~/.nodenv ~/.rbenv ~/.sdkman ~/.nodenv-rc.sh ~/.pyenv-rc.sh
   rm -rf ~/.local/share/zinit ~/.local/share/z ~/.fzf.zsh ~/.z
-  rm ~/Library/Fonts/Moralerspace*NF-*.ttf   # Moralerspace v1 Nerd Fonts builds (v2 includes them)
+  rm ~/Library/Fonts/Moralerspace*.ttf       # replaced by Explex
   Remove the cargo/flutter lines from ~/.zshenv and the SDKMAN lines from ~/.bash_profile
   (they are now handled by ~/.zprofile).
 MSG
