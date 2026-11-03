@@ -21,6 +21,7 @@
   "editorMode": "vim",
   "tui": "fullscreen",
   "autoCompactEnabled": true,
+  "autoMemoryEnabled": false,
   "skipWorkflowUsageWarning": true,
   "sandbox": {
     "enabled": true,
