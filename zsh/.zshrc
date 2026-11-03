@@ -229,8 +229,12 @@ fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $HOMEBREW_PREFIX/share/zsh-comp
 
 # pure prompt
 autoload -Uz promptinit && promptinit
-PURE_PROMPT_SYMBOL='%B%F{1}❯%F{3}❯%F{2}❯%f%b'
 prompt pure
+# pure escapes `%` in PURE_PROMPT_SYMBOL, so inject the multi-colored symbol into the prompt directly
+_pure_symbol='%B%F{1}❯%F{3}❯%F{2}❯%f%b'
+PROMPT=${PROMPT//'${prompt_pure_state[prompt]}'/$_pure_symbol}
+PROMPT2=${PROMPT2//'${prompt_pure_state[prompt]}'/$_pure_symbol}
+unset _pure_symbol
 
 _zsh_plugin=$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 [[ -f $_zsh_plugin ]] && source $_zsh_plugin
