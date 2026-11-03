@@ -52,13 +52,18 @@ c() {
   rm -f "$tmp"
 }
 
-# fgc: switch to a local or remote branch, most recently committed first
+# fgc: switch to a branch, most recently committed first.
+# Local branches are switched to; remote branches are checked out as a detached HEAD.
 fgc() {
   local branch
   branch=$(git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads refs/remotes |
     grep -vxE 'origin(/HEAD)?' |
-    fzf --border-label=' Branches ' --preview='git log --oneline --graph --color=always -30 {}') &&
-    git switch "${branch#origin/}"
+    fzf --border-label=' Branches ' --preview='git log --oneline --graph --color=always -30 {}') || return
+  if git show-ref --verify --quiet "refs/heads/$branch"; then
+    git switch "$branch"
+  else
+    git switch --detach "$branch"
+  fi
 }
 
 # flog: browse commits (enter: show / ctrl-y: copy hash)
