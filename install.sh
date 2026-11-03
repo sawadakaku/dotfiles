@@ -63,7 +63,6 @@ source_from zsh/.zshrc   "$HOME/.zshrc"
 source_from zsh/.zprofile "$HOME/.zprofile"
 link .config/mise/conf.d/dotfiles.toml "$HOME/.config/mise/conf.d/dotfiles.toml"
 link bin/bazel                         "$HOME/.local/bin/bazel"
-link .config/wezterm                   "$HOME/.config/wezterm"
 
 echo "==> Homebrew packages"
 if ! command -v brew >/dev/null; then
@@ -91,6 +90,10 @@ mise install
 echo "==> Fonts"
 install_font yuru7/moralerspace '^MoralerspaceHW_v.*\.zip$' 'MoralerspaceArgonHW-Regular.ttf'
 install_font yuru7/Explex       '^Explex_NF_v.*\.zip$'      'Explex*'
+
+echo "==> WezTerm"
+# Linked after the fonts so that a running WezTerm reloads the config with the fonts available
+link .config/wezterm "$HOME/.config/wezterm"
 
 echo "==> Karabiner-Elements"
 # Rules are generated from karabiner/karabiner.jsonnet and written into the selected
