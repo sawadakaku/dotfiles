@@ -1,17 +1,16 @@
-local utils = require 'utils'
-local map = utils.map
+-- Set before lazy.nvim loads so that plugin mappings use it
+vim.g.mapleader = ' '
+vim.g.maplocalleader = '\\'
 
 -------------
 -- Options --
 -------------
--- enable mouse
+-- Only settings that differ from Neovim's defaults
 vim.opt.mouse = 'a'
--- display title
 vim.opt.title = true
 -- disable swap/backup file
 vim.opt.swapfile = false
 vim.opt.backup = false
-vim.opt.hidden = true
 -- use clipboard instead of unnamed
 vim.opt.clipboard:append({"unnamedplus"})
 
@@ -38,20 +37,17 @@ vim.opt.tabstop = tabwidth
 vim.opt.shiftwidth = tabwidth
 
 -- search
-vim.opt.incsearch = true
-vim.opt.hlsearch = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.wrapscan = false
 
 -- move
 vim.opt.whichwrap = 'b,s,h,l,<,>,[,]'
-vim.opt.backspace = 'start,eol,indent'
 
 -----------------
 -- Key Mapping --
 -----------------
-vim.g.mapleader = ' '
+local map = vim.keymap.set
 map({'n', 'v'}, 'k', 'gk')
 map({'n', 'v'}, 'j', 'gj')
 map({'n', 'v'}, '<C-p>', '5gk')
