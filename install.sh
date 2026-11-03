@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Set up this machine from the dotfiles repository. Safe to re-run.
-# It does not uninstall anything; see the cleanup hints printed at the end.
 set -euo pipefail
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -139,16 +138,9 @@ fi
 cat <<'MSG'
 
 Done. Open a new terminal to load the new environment.
-Previous files were renamed to *.bak.<timestamp>; move any local settings you still
-need into ~/.zshrc / ~/.zprofile below the `source` line.
+Existing files that were replaced are kept as *.bak.<timestamp>.
+Next: run ./macos.sh for system preferences, and see README.md for the manual steps.
 
-Optional cleanup:
-  brew bundle cleanup --file=Brewfile      # lists installed packages not in the Brewfile
-                                           # (add --force to uninstall them)
-  sudo rm -rf /usr/local/go /etc/paths.d/go
-  rm -rf ~/.nodenv ~/.rbenv ~/.sdkman ~/.nodenv-rc.sh ~/.pyenv-rc.sh
-  rm -rf ~/.local/share/zinit ~/.local/share/z ~/.fzf.zsh ~/.z
-  rm ~/Library/Fonts/Moralerspace*.ttf       # replaced by Explex
-  Remove the cargo/flutter lines from ~/.zshenv and the SDKMAN lines from ~/.bash_profile
-  (they are now handled by ~/.zprofile).
+To list installed packages that are not in the Brewfile (add --force to uninstall them):
+  cat Brewfile ~/.Brewfile.local 2>/dev/null | brew bundle cleanup --file=-
 MSG
