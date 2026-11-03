@@ -20,6 +20,8 @@ require("lazy").setup({
   spec = {
     { import = "plugins" },
   },
+  -- Keep the lockfile out of the dotfiles repository
+  lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
   install = { colorscheme = { "tokyonight", "habamax" } },
   -- Update manually with :Lazy update
   checker = { enabled = false },

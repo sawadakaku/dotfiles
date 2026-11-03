@@ -36,7 +36,7 @@ Manual steps:
 | Claude Code | `claude/CLAUDE.md` (linked), `claude/settings.json` (shared defaults merged into `~/.claude/settings.json`) |
 | Karabiner-Elements | `karabiner/karabiner.jsonnet` (rendered into the selected profile of `~/.config/karabiner/karabiner.json` by `install.sh`) |
 | Terminal | WezTerm (`.config/wezterm`, linked) |
-| Editor | Neovim (`.config/nvim`, linked; lazy.nvim with a minimal plugin set, versions pinned in `lazy-lock.json`) |
+| Editor | Neovim (`.config/nvim`, linked; lazy.nvim with a minimal plugin set) |
 | Git | `.config/git/config` (included from `~/.gitconfig`), `ignore` and commit template (linked to `~/.config/git/`) |
 
 ## Local settings
