@@ -36,11 +36,11 @@ return {
     },
   },
 
-  -- Inline completion (accept with <Tab>)
+  -- Inline completion (accept with <Tab>). Loaded at startup: copilot.vim does not
+  -- attach to buffers that were opened before it is loaded.
   {
     'github/copilot.vim',
-    event = 'InsertEnter',
-    cmd = 'Copilot',
+    lazy = false,
     init = function()
       vim.g.copilot_filetypes = {
         gitcommit = true,
