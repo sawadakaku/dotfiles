@@ -1,6 +1,7 @@
 # Login shell environment. Exported variables are inherited by child processes,
 # including non-interactive scripts (e.g. `#!/usr/bin/env bash`).
 # Interactive-only settings belong in ~/.zshrc.
+# Sourced from ~/.zprofile (created by install.sh); machine-local settings go there.
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 

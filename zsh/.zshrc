@@ -1,3 +1,6 @@
+# Sourced from ~/.zshrc (created by install.sh). Put machine-local and private
+# settings in ~/.zshrc itself, below the `source` line.
+
 # zmodload zsh/zprof
 
 #  ╒══════════════════════════════════════════════════════════╕
@@ -262,9 +265,6 @@ if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-clou
 # if (which zprof > /dev/null 2>&1) ;then
 #   zprof
 # fi
-
-# Machine-specific / private settings (not managed in this repository)
-[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
 # zsh-syntax-highlighting must be sourced after all other widgets are defined
 _zsh_plugin=$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

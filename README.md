@@ -6,7 +6,7 @@
 ./install.sh
 ```
 
-Symlinks the config files into `$HOME`, installs Homebrew packages (`Brewfile`), rustup, uv and the mise tools. It is safe to re-run.
+Creates `~/.zshrc` and `~/.zprofile` that source the files in this repository, links the mise config, installs Homebrew packages (`Brewfile`), rustup, uv and the mise tools. It is safe to re-run.
 
 ## Layout
 
@@ -17,11 +17,12 @@ Symlinks the config files into `$HOME`, installs Homebrew packages (`Brewfile`),
 | Rust | rustup (`~/.cargo/bin`) |
 | Python | uv (`~/.local/bin`) |
 | Go | Homebrew (`GOTOOLCHAIN=auto` fetches newer toolchains as needed) |
-| Node.js / Java / Ruby / Scala / sbt / Bazelisk | mise (`.config/mise/config.toml`) |
+| Node.js / Java / Ruby / Scala / sbt / Bazelisk | mise (`.config/mise/conf.d/dotfiles.toml`) |
 
-## Private settings
+## Local settings
 
-Settings that must not be committed (company-specific aliases and functions, machine-specific paths) go in files outside this repository:
+Settings that must not be committed (company-specific aliases and functions, machine-specific paths) stay outside this repository:
 
-- `~/.zshrc.local`: sourced at the end of `.zshrc`
+- `~/.zshrc` / `~/.zprofile`: local files that `source` this repository's files; add local settings below that line (lines appended by installers also land here)
+- `~/.config/mise/config.toml`: machine-local tool versions (`mise use -g`), takes precedence over `conf.d/dotfiles.toml`
 - `~/.Brewfile.local`: installed by `install.sh` if present

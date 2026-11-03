@@ -1,6 +1,7 @@
 # Global tool versions managed by mise.
 # Rust (rustup), Python (uv) and Go (Homebrew) are managed outside of mise.
-# Pin per-project versions in each project's mise.toml.
+# Linked to ~/.config/mise/conf.d/dotfiles.toml. Machine-local overrides (`mise use -g`)
+# go to ~/.config/mise/config.toml, which takes precedence. Pin per-project versions in mise.toml.
 
 [tools]
 node = "latest"

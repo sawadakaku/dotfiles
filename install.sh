@@ -20,11 +20,27 @@ link() {
   echo "link:   $dst -> $src"
 }
 
+# Keep $2 as a local file that sources the repository file $1, so that local
+# settings and lines appended by installers stay out of the repository.
+source_from() {
+  local src="$DOTFILES/$1" dst="$2"
+  local line="source \"$src\""
+  if [[ -f "$dst" && ! -L "$dst" ]] && grep -qxF "$line" "$dst"; then
+    return
+  fi
+  if [[ -e "$dst" || -L "$dst" ]]; then
+    mv "$dst" "$dst.bak.$TIMESTAMP"
+    echo "backup: $dst -> $dst.bak.$TIMESTAMP"
+  fi
+  printf '%s\n\n# --- Local settings (not managed in the dotfiles repository) ---\n' "$line" > "$dst"
+  echo "create: $dst (sources $src)"
+}
+
 echo "==> Linking dotfiles"
-link zsh/.zshrc               "$HOME/.zshrc"
-link zsh/.zprofile            "$HOME/.zprofile"
-link .config/mise/config.toml "$HOME/.config/mise/config.toml"
-link bin/bazel                "$HOME/.local/bin/bazel"
+source_from zsh/.zshrc   "$HOME/.zshrc"
+source_from zsh/.zprofile "$HOME/.zprofile"
+link .config/mise/conf.d/dotfiles.toml "$HOME/.config/mise/conf.d/dotfiles.toml"
+link bin/bazel                         "$HOME/.local/bin/bazel"
 
 echo "==> Homebrew packages"
 if ! command -v brew >/dev/null; then
@@ -34,11 +50,6 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 brew bundle --file="$DOTFILES/Brewfile"
 if [[ -f "$HOME/.Brewfile.local" ]]; then
   brew bundle --file="$HOME/.Brewfile.local"
-fi
-
-# Migrate directory history from z.sh to zoxide (first run only)
-if [[ -f "$HOME/.z" ]] && command -v zoxide >/dev/null && [[ -z "$(zoxide query -l 2>/dev/null)" ]]; then
-  zoxide import --from=z "$HOME/.z"
 fi
 
 echo "==> Rust (rustup)"
@@ -57,6 +68,8 @@ mise install
 cat <<'MSG'
 
 Done. Open a new terminal to load the new environment.
+Previous files were renamed to *.bak.<timestamp>; move any local settings you still
+need into ~/.zshrc / ~/.zprofile below the `source` line.
 
 Optional cleanup:
   brew bundle cleanup --file=Brewfile      # lists installed packages not in the Brewfile
