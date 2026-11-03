@@ -65,6 +65,28 @@ fi
 echo "==> mise tools"
 mise install
 
+echo "==> Claude Code"
+if [[ ! -x "$HOME/.local/bin/claude" ]]; then
+  curl -fsSL https://claude.ai/install.sh | bash
+fi
+link claude/CLAUDE.md "$HOME/.claude/CLAUDE.md"
+# Add the shared settings only where ~/.claude/settings.json has no value yet.
+# Local values (machine/company-specific, or changed from Claude Code) always win.
+settings="$HOME/.claude/settings.json"
+shared="$(jq . "$DOTFILES/claude/settings.json")"
+if [[ ! -f "$settings" ]]; then
+  printf '%s\n' "$shared" > "$settings"
+  chmod 600 "$settings"
+  echo "create: $settings"
+else
+  merged="$(jq -s '.[0] * .[1]' <(printf '%s' "$shared") "$settings")"
+  if [[ "$(jq -S . <<< "$merged")" != "$(jq -S . "$settings")" ]]; then
+    cp "$settings" "$settings.bak.$TIMESTAMP"
+    printf '%s\n' "$merged" > "$settings"
+    echo "update: $settings (backup: $settings.bak.$TIMESTAMP)"
+  fi
+fi
+
 cat <<'MSG'
 
 Done. Open a new terminal to load the new environment.

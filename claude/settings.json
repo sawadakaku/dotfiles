@@ -1,0 +1,46 @@
+{
+  "env": {
+    "ENABLE_LSP_TOOL": "1",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(gh pr checkout *)",
+      "Bash(gh pr diff *)",
+      "Bash(git fetch *)",
+      "Bash(git checkout *)",
+      "Bash(git diff *)",
+      "Bash(git log *)"
+    ]
+  },
+  "enabledPlugins": {
+    "claude-security@claude-plugins-official": true
+  },
+  "outputStyle": "Concise",
+  "theme": "dark-daltonized",
+  "editorMode": "vim",
+  "tui": "fullscreen",
+  "autoCompactEnabled": true,
+  "skipWorkflowUsageWarning": true,
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true,
+    "allowUnsandboxedCommands": false,
+    "enableWeakerNetworkIsolation": true,
+    "excludedCommands": ["gh", "git", "docker"],
+    "network": {
+      "allowedDomains": [
+        "github.com",
+        "*.github.com",
+        "raw.githubusercontent.com",
+        "anthropic.com"
+      ],
+      "allowAllUnixSockets": true,
+      "allowLocalBinding": true
+    },
+    "filesystem": {
+      "allowWrite": ["/tmp", "/private/tmp", "."],
+      "allowRead": ["."]
+    }
+  }
+}
