@@ -39,8 +39,8 @@ WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 #  │                          Alias                           │
 #  ╘══════════════════════════════════════════════════════════╛
 
-alias ls='ls -G'
-alias lsa='exa -Tla -L1'
+alias ls='eza --group-directories-first'
+alias lsa='eza -Tla -L1'
 
 
 #  ╒══════════════════════════════════════════════════════════╕
@@ -73,8 +73,7 @@ c() {
 fgc() {
   local branches branch
   branches=$(git branch --all | grep -v HEAD) &&
-  branch=$(echo "$branches" |
-           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+  branch=$(echo "$branches" | fzf +m) &&
   git checkout $(echo "$branch" | sed "s/.* //" )
 }
 
@@ -108,7 +107,7 @@ fadd() {
   while out=$(
       git status --short |
       awk '{if (substr($0,2,1) !~ / /) print $2}' |
-      fzf-tmux --multi --exit-0 --expect=ctrl-d); do
+      fzf --multi --exit-0 --expect=ctrl-d); do
     q=$(head -1 <<< "$out")
     n=$[$(wc -l <<< "$out") - 1]
     addfiles=(`echo $(tail "-$n" <<< "$out")`)
@@ -134,15 +133,14 @@ fvim() {
 }
 alias fv="fvim"
 
-# かつていたことのあるディレクトリに移動する
-# https://qiita.com/kamykn/items/aa9920f07487559c0c7e
+# かつていたことのあるディレクトリに移動する (Ctrl-Z, zoxide の履歴をスコア順に表示)
 fzf-z-search() {
-    local res=$(z | sort -rn | cut -c 12- | fzf)
+    local res=$(zoxide query -l | fzf --no-sort)
     if [ -n "$res" ]; then
-        BUFFER+="cd $res"
+        BUFFER="cd ${(q)res}"
         zle accept-line
     else
-        return 1
+        zle reset-prompt
     fi
 }
 
@@ -190,12 +188,17 @@ idea() {
 #  │                         Plugins                          │
 #  ╘══════════════════════════════════════════════════════════╛
 
-[ -f ~/.local/share/z/z.sh ] && source ~/.local/share/z/z.sh
+#  ┍━━━━━━━━┑
+#  │ zoxide │
+#  ┕━━━━━━━━┙
+# z <keyword>: jump to a frequently visited directory, zi: select with fzf
+command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
 
 #  ┍━━━━━┑
 #  │ FZF │
 #  ┕━━━━━┙
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# Key bindings (Ctrl-T / Ctrl-R / Alt-C) and completion
+command -v fzf >/dev/null && source <(fzf --zsh)
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!**/.git/*"'
 export FZF_DEFAULT_OPTS="
@@ -216,43 +219,21 @@ export FZF_CTRL_R_OPTS="
     --preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'
 "
 
-#  ╭───────╮
-#  │ Zinit │
-#  ╰───────╯
-### Added by Zinit's installer
-if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
-    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
-        print -P "%F{33} %F{34}Installation successful.%f%b" || \
-        print -P "%F{160} The clone has failed.%f%b"
-fi
+#  ┍━━━━━━━━━┑
+#  │ Plugins │  installed with Homebrew (see Brewfile)
+#  ┕━━━━━━━━━┙
+fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $HOMEBREW_PREFIX/share/zsh-completions $fpath)
 
-source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    zdharma-continuum/zinit-annex-as-monitor \
-    zdharma-continuum/zinit-annex-bin-gem-node \
-    zdharma-continuum/zinit-annex-patch-dl \
-    zdharma-continuum/zinit-annex-rust
-
-### End of Zinit's installer chunk
-
-# Load the pure theme, with zsh-async library that's bundled with it.
-zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
-zinit light sindresorhus/pure
+# pure prompt
+autoload -Uz promptinit && promptinit
 PURE_PROMPT_SYMBOL='%B%F{1}❯%F{3}❯%F{2}❯%f%b'
+prompt pure
 
-zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light zsh-users/zsh-autosuggestions
+_zsh_plugin=$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+[[ -f $_zsh_plugin ]] && source $_zsh_plugin
+unset _zsh_plugin
 
 # Completions
-fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
 
 # Generated completions are cached and regenerated only when the binary is updated
 _zcomp_cache=$HOME/.cache/zsh/completions
@@ -284,3 +265,8 @@ if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-clou
 
 # Machine-specific / private settings (not managed in this repository)
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+
+# zsh-syntax-highlighting must be sourced after all other widgets are defined
+_zsh_plugin=$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[[ -f $_zsh_plugin ]] && source $_zsh_plugin
+unset _zsh_plugin

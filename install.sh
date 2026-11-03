@@ -36,6 +36,11 @@ if [[ -f "$HOME/.Brewfile.local" ]]; then
   brew bundle --file="$HOME/.Brewfile.local"
 fi
 
+# Migrate directory history from z.sh to zoxide (first run only)
+if [[ -f "$HOME/.z" ]] && command -v zoxide >/dev/null && [[ -z "$(zoxide query -l 2>/dev/null)" ]]; then
+  zoxide import --from=z "$HOME/.z"
+fi
+
 echo "==> Rust (rustup)"
 if [[ ! -x "$HOME/.cargo/bin/rustup" ]]; then
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
@@ -53,11 +58,12 @@ cat <<'MSG'
 
 Done. Open a new terminal to load the new environment.
 
-Optional cleanup of tools replaced by mise / Homebrew Go:
-  brew uninstall nodenv node-build rbenv ruby-build coursier sbt scala@2.13 openjdk bazelisk
-  brew uninstall --cask temurin@11
+Optional cleanup:
+  brew bundle cleanup --file=Brewfile      # lists installed packages not in the Brewfile
+                                           # (add --force to uninstall them)
   sudo rm -rf /usr/local/go /etc/paths.d/go
   rm -rf ~/.nodenv ~/.rbenv ~/.sdkman ~/.nodenv-rc.sh ~/.pyenv-rc.sh
+  rm -rf ~/.local/share/zinit ~/.local/share/z ~/.fzf.zsh ~/.z
   Remove the cargo/flutter lines from ~/.zshenv and the SDKMAN lines from ~/.bash_profile
   (they are now handled by ~/.zprofile).
 MSG
