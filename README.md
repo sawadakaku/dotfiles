@@ -19,7 +19,7 @@ cd ~/dotfiles
 Manual steps:
 
 - Grant permissions to Karabiner-Elements and Google Japanese Input (Input Monitoring, etc.) and add Google Japanese Input to the input sources
-- Import the Google Japanese Input roman table
+- Import the Google Japanese Input roman table: Preferences > General > Romaji table > Customize... > Edit > Import from file, and select `google-ime/romantable.txt` (tab-separated)
 - Log in: `gh auth login`, `claude`, `gcloud auth login`
 - Restore local settings (see below)
 
