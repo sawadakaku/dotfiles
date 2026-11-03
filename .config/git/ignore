@@ -1,4 +1,4 @@
-*.out
+# *.out
 *.dSYM/
 
 # Ansible --------------------
@@ -90,6 +90,7 @@ tags
 
 # VScode --------------------
 .vscode/*
+.vscode/
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -190,3 +191,15 @@ __pycache__/
 .venv
 venv/
 venv.bak/
+
+# clangd
+compile_commands.json
+.cache/
+
+cookie.txt
+
+**/.claude/settings.local.json
+
+**/.claude/.cc-writes/
+
+.claude/

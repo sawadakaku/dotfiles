@@ -35,6 +35,25 @@ source_from() {
   echo "create: $dst (sources $src)"
 }
 
+# Keep $2 (~/.gitconfig) as a local file that includes the repository's git config $1.
+# `git config --global` and tools such as gh / git-lfs write to $2, so the repository
+# stays clean. Settings below the [include] block override the shared ones.
+include_gitconfig() {
+  local src="$DOTFILES/$1" dst="$2" header
+  if [[ -f "$dst" ]] && git config -f "$dst" --get-all include.path | grep -qxF "$src"; then
+    return
+  fi
+  header="$(printf '[include]\n\tpath = %s\n\n# --- Local settings (not managed in the dotfiles repository) ---' "$src")"
+  if [[ -f "$dst" ]]; then
+    cp "$dst" "$dst.bak.$TIMESTAMP"
+    { printf '%s\n' "$header"; cat "$dst.bak.$TIMESTAMP"; } > "$dst"
+    echo "update: $dst (includes $src, backup: $dst.bak.$TIMESTAMP)"
+  else
+    printf '%s\n[user]\n\tname =\n\temail =\n' "$header" > "$dst"
+    echo "create: $dst (includes $src; set user.name and user.email)"
+  fi
+}
+
 # Install fonts from the latest GitHub release of $1 (asset name regex $2),
 # unless a font file matching the glob $3 is already in ~/Library/Fonts.
 install_font() {
@@ -62,6 +81,9 @@ source_from zsh/.zshrc   "$HOME/.zshrc"
 source_from zsh/.zprofile "$HOME/.zprofile"
 link .config/mise/conf.d/dotfiles.toml "$HOME/.config/mise/conf.d/dotfiles.toml"
 link bin/bazel                         "$HOME/.local/bin/bazel"
+include_gitconfig .config/git/config "$HOME/.gitconfig"
+link .config/git/ignore                "$HOME/.config/git/ignore"
+link .config/git/commit_template_with_prompt.txt "$HOME/.config/git/commit_template_with_prompt.txt"
 
 echo "==> Homebrew packages"
 if ! command -v brew >/dev/null; then
@@ -85,6 +107,15 @@ fi
 
 echo "==> mise tools"
 mise install
+
+echo "==> gcloud"
+# gcloud runs on its own virtualenv (extra modules such as cryptography for key import).
+# The interpreter comes from uv so that Homebrew Python upgrades don't break it.
+if command -v gcloud >/dev/null && [[ ! -x "$HOME/.config/gcloud/virtenv/bin/python3" ]]; then
+  "$HOME/.local/bin/uv" python install 3.14
+  gcloud config virtualenv create --python-to-use "$("$HOME/.local/bin/uv" python find --managed-python 3.14)"
+  gcloud config virtualenv enable
+fi
 
 echo "==> Fonts"
 install_font yuru7/Explex '^Explex_NF_v.*\.zip$' 'Explex*'

@@ -19,6 +19,8 @@ brew "bat"
 brew "eza"
 brew "fzf"
 brew "gh"
+brew "git-delta"                # git pager (.config/git/config)
+brew "git-lfs"
 brew "go-jsonnet"               # renders karabiner/karabiner.jsonnet
 brew "jq"
 brew "lazygit"
@@ -31,6 +33,7 @@ brew "colima"
 brew "docker"                   # docker CLI (colima provides the runtime)
 
 # Apps
+cask "gcloud-cli"
 cask "google-japanese-ime"
 cask "karabiner-elements"
 cask "wezterm"

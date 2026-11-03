@@ -36,12 +36,14 @@ Manual steps:
 | Claude Code | `claude/CLAUDE.md` (linked), `claude/settings.json` (shared defaults merged into `~/.claude/settings.json`) |
 | Karabiner-Elements | `karabiner/karabiner.jsonnet` (rendered into the selected profile of `~/.config/karabiner/karabiner.json` by `install.sh`) |
 | Terminal | WezTerm (`.config/wezterm`, linked) |
+| Git | `.config/git/config` (included from `~/.gitconfig`), `ignore` and commit template (linked to `~/.config/git/`) |
 
 ## Local settings
 
 Settings that must not be committed (company-specific aliases and functions, machine-specific paths) stay outside this repository:
 
 - `~/.zshrc` / `~/.zprofile`: local files that `source` this repository's files; add local settings below that line (lines appended by installers also land here)
+- `~/.gitconfig`: local file that includes `.config/git/config`; put `user.name` / `user.email` and other local settings below the `[include]` block (`git config --global` also writes here)
 - `~/.config/mise/config.toml`: machine-local tool versions (`mise use -g`), takes precedence over `conf.d/dotfiles.toml`
 - `~/.Brewfile.local`: installed by `install.sh` if present
 - `~/.claude/settings.json`: `install.sh` only adds keys from `claude/settings.json` that are missing locally, so company plugins, language-specific and machine-specific settings stay local

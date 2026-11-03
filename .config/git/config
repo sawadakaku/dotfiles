@@ -1,0 +1,30 @@
+# Shared git settings, included from ~/.gitconfig (created by install.sh).
+# Machine-local settings (user.name / user.email, company-specific settings) go in
+# ~/.gitconfig below the [include] block; `git config --global` also writes there.
+
+[core]
+	editor = nvim
+	pager = delta
+	precomposeunicode = true
+[color]
+	ui = true
+[alias]
+	chekcout = checkout
+	graph = log --graph --date-order --all --pretty=format:'%h %Cred%d %Cgreen%ad %Cblue%cn %Creset%s' --date=short
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	lga = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true    # use n and N to move between diff sections
+	light = false
+	side-by-side = true
+[merge]
+	conflictstyle = diff3
+[diff]
+	colorMoved = default
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

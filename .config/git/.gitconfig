@@ -1,9 +1,0 @@
-[user]
-	name = {{ your_name }}
-	email = {{ your_email }}
-[core]
-	precomposeunicode = true
-[color]
-	ui = true
-[alias]
-	graph = log --graph --date-order --all --pretty=format:'%h %Cred%d %Cgreen%ad %Cblue%cn %Creset%s' --date=short

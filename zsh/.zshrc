@@ -116,8 +116,10 @@ else
 fi
 unset _zcompdump_stale
 
-# The next line enables shell command completion for gcloud.
-if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
+# gcloud completion (gcloud-cli cask)
+_gcloud_comp=$HOMEBREW_PREFIX/share/google-cloud-sdk/completion.zsh.inc
+[[ -f $_gcloud_comp ]] && source $_gcloud_comp
+unset _gcloud_comp
 
 
 # if (which zprof > /dev/null 2>&1) ;then
