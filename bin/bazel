@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# mise's bazelisk only ships a `bazelisk` binary; expose it as `bazel` too.
+exec bazelisk "$@"

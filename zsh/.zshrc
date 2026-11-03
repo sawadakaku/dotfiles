@@ -1,42 +1,12 @@
-#  ╒══════════════════════════════════════════════════════════╕
-#  │                           PATH                           │
-#  ╘══════════════════════════════════════════════════════════╛
-
-# User local commands
-export PATH=$HOME/bin:$PATH
-export PATH=$HOME/.local/bin:$PATH
+# zmodload zsh/zprof
 
 #  ╒══════════════════════════════════════════════════════════╕
 #  │                         Language                         │
 #  ╘══════════════════════════════════════════════════════════╛
+# PATH is set in ~/.zprofile (Homebrew, cargo, uv, mise shims, go).
 
-# Go tools
-export PATH=$HOME/local/go/bin:$HOME/go/bin:$PATH
-
-# rust
-export PATH="$HOME/.cargo/bin:$PATH"
-
-# python
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-# rerun rehash `pyenv rehash` when adding new exec to pyenv
-# pyenv init - --no-rehash > ~/.pyenv-rc.sh
-if [ -f ~/.pyenv-rc.sh ]; then
-    source ~/.pyenv-rc.sh
-fi
-
-# node
-export PATH="$HOME/.nodenv/bin:$PATH"
-# rerun rehash `nodenv rehash` when adding new exec to pyenv
-# nodenv init - --no-rehash > ~/.nodenv-rc.sh
-if [ -f ~/.nodenv-rc.sh ]; then
-    source ~/.nodenv-rc.sh
-fi
-# npm completion > ~/.npm_completion-rc.sh
-if [ -f ~/.npm_completion-rc.sh ]; then
-    source ~/.npm_completion-rc.sh
-fi
-
+# mise: Node.js / Java / Ruby / Scala / sbt / Bazelisk
+command -v mise >/dev/null && eval "$(mise activate zsh)"
 
 #  ╒══════════════════════════════════════════════════════════╕
 #  │                         Options                          │
@@ -70,6 +40,7 @@ WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 #  ╘══════════════════════════════════════════════════════════╛
 
 alias ls='ls -G'
+alias lsa='exa -Tla -L1'
 
 
 #  ╒══════════════════════════════════════════════════════════╕
@@ -83,7 +54,7 @@ c() {
   sep='{::}'
 
   if [ "$(uname)" = "Darwin" ]; then
-    google_history="$HOME/Library/Application Support/Google/Chrome/Default/History"
+    google_history="$HOME/Library/Application Support/Google/Chrome/Profile 1/History"
     open=open
   else
     google_history="$HOME/.config/google-chrome/Default/History"
@@ -104,7 +75,7 @@ fgc() {
   branches=$(git branch --all | grep -v HEAD) &&
   branch=$(echo "$branches" |
            fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
-  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+  git checkout $(echo "$branch" | sed "s/.* //" )
 }
 
 # flog - git commit browser
@@ -143,7 +114,8 @@ fadd() {
     addfiles=(`echo $(tail "-$n" <<< "$out")`)
     [[ -z "$addfiles" ]] && continue
     if [ "$q" = ctrl-d ]; then
-      git diff --color=always $addfiles | less -R
+      # git diff --color=always $addfiles | less -R
+      git difftool $addfiles
     else
       git add $addfiles
     fi
@@ -205,6 +177,15 @@ fdl() {
   [ -n "$cid" ] && docker logs -f --tail=200 "$cid"
 }
 
+p() {
+  python3 -c "s = $*; print(s)"
+}
+
+idea() {
+#     command idea "$@" > /dev/null 2>&1 &
+    open -na "IntelliJ IDEA.app" --args "$@"
+}
+
 #  ╒══════════════════════════════════════════════════════════╕
 #  │                         Plugins                          │
 #  ╘══════════════════════════════════════════════════════════╛
@@ -219,7 +200,7 @@ fdl() {
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!**/.git/*"'
 export FZF_DEFAULT_OPTS="
     --height 40% --reverse --border=sharp --margin=0,1
-    --prompt=' ' --color=light
+    --prompt=' ' --color=light
 "
 
 # for finding files in current directories
@@ -270,9 +251,36 @@ zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
 
+# Completions
+fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
+
+# Generated completions are cached and regenerated only when the binary is updated
+_zcomp_cache=$HOME/.cache/zsh/completions
+[[ -d $_zcomp_cache ]] || mkdir -p $_zcomp_cache
+fpath=($_zcomp_cache $fpath)
+if (( $+commands[uv] )) && [[ ! -s $_zcomp_cache/_uv || $commands[uv] -nt $_zcomp_cache/_uv ]]; then
+  uv generate-shell-completion zsh >| $_zcomp_cache/_uv
+  uvx --generate-shell-completion zsh >| $_zcomp_cache/_uvx
+fi
+unset _zcomp_cache
+
+# Full security check only once a day; otherwise use the cached dump
+autoload -Uz compinit
+_zcompdump_stale=(~/.zcompdump(N.mh+24))
+if (( $#_zcompdump_stale )) || [[ ! -f ~/.zcompdump ]]; then
+  compinit
+else
+  compinit -C
+fi
+unset _zcompdump_stale
+
+# The next line enables shell command completion for gcloud.
+if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
 
 
 # if (which zprof > /dev/null 2>&1) ;then
 #   zprof
 # fi
 
+# Machine-specific / private settings (not managed in this repository)
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local

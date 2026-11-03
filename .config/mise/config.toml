@@ -1,0 +1,11 @@
+# Global tool versions managed by mise.
+# Rust (rustup), Python (uv) and Go (Homebrew) are managed outside of mise.
+# Pin per-project versions in each project's mise.toml.
+
+[tools]
+node = "latest"
+ruby = "latest"
+java = "temurin-25"
+bazelisk = "latest"
+sbt = "latest"
+scala = "2.13"
